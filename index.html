@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Vespera — Eau de Parfum</title>
   <meta name="description" content="Vespera Eau de Parfum. Four fragrances for the hour the day softens. Wear the last light.">
-  <meta name="theme-color" content="#141b3d">
+  <meta name="theme-color" content="#070707">
   <meta property="og:title" content="Vespera — Eau de Parfum">
   <meta property="og:description" content="Wear the last light.">
   <meta property="og:image" content="assets/img/poster-sunset.webp">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0e24'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='38' text-anchor='middle' fill='%23d9b472'%3EV%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070707'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='38' text-anchor='middle' fill='%23e2b54a'%3EV%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -28,40 +28,84 @@
     <a class="nav__logo" href="#top" aria-label="Vespera home">VESPERA</a>
     <nav class="nav__links" aria-label="Primary">
       <a href="#shop">Shop</a>
-      <a href="#finder">Find yours</a>
+      <a href="#moods">Moods</a>
+      <a href="#how">Ordering</a>
       <a href="#campaign">Campaign</a>
-      <button class="nav__cta nav__bag" type="button" data-cart-open aria-label="Open your bag">Bag <span data-cart-count aria-live="polite">0</span></button>
     </nav>
+    <button class="nav__bag" type="button" data-cart-open aria-label="Open your bag">Bag <span data-cart-count aria-live="polite">0</span></button>
   </header>
 
   <main id="top">
 
     <!-- HERO -->
     <section class="hero" aria-label="Introduction">
-      <div class="hero__bg" aria-hidden="true"></div>
       <canvas class="hero__dust" aria-hidden="true"></canvas>
-      <h1 class="hero__title" aria-label="Vespera"><span data-split>VESPERA</span></h1>
+      <div class="hero__glow" aria-hidden="true"></div>
+      <h1 class="hero__title"><span class="hero__line">Wear the</span> <em class="hero__line">last light.</em></h1>
       <figure class="hero__figure">
-        <img src="assets/img/amara-hero.webp" alt="Amara in a champagne silk gown holding a full-size bottle of Vespera at golden hour" width="1200" height="1600" fetchpriority="high">
+        <img src="assets/img/hero-poster.webp" alt="Amara in black silk holding a full-size bottle of Vespera in golden smoke" width="720" height="1280" fetchpriority="high">
+        <video class="hero__video" muted playsinline preload="none" poster="assets/img/hero-poster.webp" aria-hidden="true" tabindex="-1">
+          <source src="assets/video/hero-spray.mp4" type="video/mp4">
+        </video>
       </figure>
-      <div class="hero__meta">
-        <p class="eyebrow">Eau de Parfum · Four fragrances</p>
-        <p class="hero__tag">Wear the <em>last light.</em></p>
-        <a class="btn btn--light" href="#shop">Shop the collection</a>
+      <div class="hero__copy">
+        <p class="hero__sub">Four fragrances for the hour the day softens and the night begins.</p>
+        <div class="hero__cta">
+          <a class="btn btn--gold" href="#shop">Shop the collection</a>
+          <a class="btn btn--ghost" href="#moods">Find your mood</a>
+        </div>
       </div>
-      <a class="hero__scroll" href="#manifesto" aria-label="Scroll to discover"><span></span>Scroll</a>
     </section>
 
-    <!-- MARQUEE -->
-    <div class="marquee" aria-hidden="true">
-      <div class="marquee__track">
-        <span>Eau de Parfum</span><i>✦</i><span>Free delivery over R1 500</span><i>✦</i><span>Wear the last light</span><i>✦</i>
-        <span>Eau de Parfum</span><i>✦</i><span>Free delivery over R1 500</span><i>✦</i><span>Wear the last light</span><i>✦</i>
+    <!-- MOODS -->
+    <section class="moods" id="moods" aria-label="Find your mood">
+      <header class="section-head">
+        <p class="eyebrow">Find your mood</p>
+        <h2 class="h2">Every evening has <em>its own atmosphere.</em></h2>
+        <p class="lede">Six places to begin. Choose the one that feels like you tonight and we'll point you to the bottle.</p>
+      </header>
+      <div class="mood-grid" id="moodGrid"></div>
+    </section>
+
+    <!-- SHOP -->
+    <section class="shop" id="shop" aria-label="Shop">
+      <header class="section-head">
+        <p class="eyebrow">The collection</p>
+        <h2 class="h2">Four fragrances, <em>one hour.</em></h2>
+      </header>
+      <div class="panel">
+        <div class="panel__bar">
+          <div class="tabs" role="tablist" aria-label="Filter by time of day">
+            <button class="tab is-on" role="tab" aria-selected="true" data-filter="all">All</button>
+            <button class="tab" role="tab" aria-selected="false" data-filter="day">Day</button>
+            <button class="tab" role="tab" aria-selected="false" data-filter="evening">Evening</button>
+            <button class="tab" role="tab" aria-selected="false" data-filter="night">Night</button>
+          </div>
+          <span class="panel__note">Free delivery over R1 500</span>
+        </div>
+        <div class="products" id="products" aria-live="polite"></div>
       </div>
-    </div>
+      <p class="fineprint shop__note">Prices are placeholders — set the real prices in <code>js/shop.js</code>.</p>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how" id="how" aria-label="How ordering works">
+      <div class="how__intro">
+        <p class="eyebrow">Ordering</p>
+        <h2 class="h2">From first spray <em>to your door.</em></h2>
+        <p class="lede">Choosing a fragrance should feel like choosing a feeling. Start with a mood, try the size that suits you, and we'll handle the rest.</p>
+        <a class="link-gold" href="#shop">Start shopping →</a>
+      </div>
+      <ol class="steps">
+        <li class="glass"><span>01</span><div><h3>Pick a mood</h3><p>Start with the atmosphere that feels like tonight.</p></div></li>
+        <li class="glass"><span>02</span><div><h3>Meet your match</h3><p>We suggest the fragrance that fits that feeling.</p></div></li>
+        <li class="glass"><span>03</span><div><h3>Choose a size</h3><p>50 ml to carry, 100 ml to keep.</p></div></li>
+        <li class="glass"><span>04</span><div><h3>Delivered</h3><p>Gift-ready packaging, straight to your door.</p></div></li>
+      </ol>
+    </section>
 
     <!-- MANIFESTO -->
-    <section class="manifesto" id="manifesto">
+    <section class="manifesto" id="story">
       <p class="eyebrow">The idea</p>
       <p class="manifesto__text" data-words>
         Vespera is the hour the day softens and the night begins. Warm skin, cooling air, a city turning gold. We bottled that moment so you can carry it with you.
@@ -110,33 +154,6 @@
       </div>
     </section>
 
-    <!-- SHOP -->
-    <section class="shop" id="shop" aria-label="Shop">
-      <div class="shop__head">
-        <p class="eyebrow">The collection</p>
-        <h2 class="h2">Four fragrances, <em>one hour.</em></h2>
-      </div>
-      <div class="products" id="products" aria-live="polite"></div>
-      <p class="fineprint shop__note">Prices are placeholders — set the real prices in <code>js/shop.js</code>.</p>
-    </section>
-
-    <!-- FINDER -->
-    <section class="finder" id="finder" aria-label="Find your fragrance">
-      <div class="finder__head">
-        <p class="eyebrow">Find yours</p>
-        <h2 class="h2">How do you want <em>to feel?</em></h2>
-      </div>
-      <div class="moods" role="group" aria-label="Choose a mood">
-        <button class="mood" type="button" data-mood="calm">Calm</button>
-        <button class="mood" type="button" data-mood="fresh">Fresh</button>
-        <button class="mood" type="button" data-mood="romantic">Romantic</button>
-        <button class="mood" type="button" data-mood="joyful">Joyful</button>
-        <button class="mood" type="button" data-mood="bold">Bold</button>
-        <button class="mood" type="button" data-mood="mysterious">Mysterious</button>
-      </div>
-      <div class="finder__result" id="finderResult" aria-live="polite" hidden></div>
-    </section>
-
     <!-- CAMPAIGN (horizontal) -->
     <section class="campaign" id="campaign" aria-label="Campaign">
       <div class="campaign__pin">
@@ -151,17 +168,6 @@
           <figure class="card"><img src="assets/img/amara-night.webp" alt="Amara on a rooftop terrace at twilight" loading="lazy" width="1600" height="900"><figcaption>IV — Nightfall</figcaption></figure>
         </div>
       </div>
-    </section>
-
-    <!-- HOW IT WORKS -->
-    <section class="how" id="how" aria-label="How ordering works">
-      <p class="eyebrow">Ordering</p>
-      <h2 class="h2">Simple, <em>from first spray.</em></h2>
-      <ol class="steps">
-        <li><span>01</span><h3>Choose</h3><p>Pick a fragrance and a size, or use the mood finder to find your match.</p></li>
-        <li><span>02</span><h3>Order</h3><p>Add to your bag and check out securely.</p></li>
-        <li><span>03</span><h3>Delivered</h3><p>Gift-ready packaging at your door.</p></li>
-      </ol>
     </section>
 
     <!-- RESERVE -->
@@ -212,5 +218,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/hero-video.js"></script>
 </body>
 </html>

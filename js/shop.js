@@ -5,25 +5,29 @@
   const FREE_SHIPPING_OVER = 1500;
 
   const PRODUCTS = [
-    { id: "golden-hour", no: "No. 01", name: "Golden Hour", img: "assets/img/product-golden.webp",
+    { id: "golden-hour", no: "No. 01", name: "Golden Hour", img: "assets/img/product-golden.webp", times: ["evening"],
       notes: "Bergamot · Magnolia · Amber", blurb: "Warm skin, last sun. The signature.",
-      moods: ["calm", "romantic"], prices: { 50: 1450, 100: 2250 } },
-    { id: "blue-hour", no: "No. 02", name: "Blue Hour", img: "assets/img/product-blue.webp",
+      prices: { 50: 1450, 100: 2250 } },
+    { id: "blue-hour", no: "No. 02", name: "Blue Hour", img: "assets/img/product-blue.webp", times: ["day", "evening"],
       notes: "Sea salt · Iris · Cedar", blurb: "Cool, clear and quietly confident.",
-      moods: ["fresh", "calm"], prices: { 50: 1450, 100: 2250 } },
-    { id: "garden", no: "No. 03", name: "Garden", img: "assets/img/product-garden.webp",
+      prices: { 50: 1450, 100: 2250 } },
+    { id: "garden", no: "No. 03", name: "Garden", img: "assets/img/product-garden.webp", times: ["day"],
       notes: "Peony · Magnolia · White musk", blurb: "Petals after rain. Soft and bright.",
-      moods: ["romantic", "joyful"], prices: { 50: 1550, 100: 2350 } },
-    { id: "noir", no: "No. 04", name: "Noir", img: "assets/img/product-noir.webp",
+      prices: { 50: 1550, 100: 2350 } },
+    { id: "noir", no: "No. 04", name: "Noir", img: "assets/img/product-noir.webp", times: ["night"],
       notes: "Black pepper · Oud · Vanilla", blurb: "After dark. Deep, smoky, unforgettable.",
-      moods: ["bold", "mysterious"], prices: { 50: 1650, 100: 2550 } },
+      prices: { 50: 1650, 100: 2550 } },
   ];
 
-  const MOOD_COPY = {
-    calm: "Unhurried and glowing.", fresh: "Clean air and open windows.",
-    romantic: "Soft, close, a little daring.", joyful: "Light on your feet.",
-    bold: "Walk in like you own the room.", mysterious: "A scent people follow.",
-  };
+  // Six moods. Each points at the fragrance we recommend for it.
+  const MOODS = [
+    { id: "calm", name: "Calm", img: "assets/img/mood-calm.webp", product: "golden-hour", tags: ["Amber", "Magnolia", "Warm skin"] },
+    { id: "fresh", name: "Fresh", img: "assets/img/mood-fresh.webp", product: "blue-hour", tags: ["Sea salt", "Iris", "Cedar"] },
+    { id: "romantic", name: "Romantic", img: "assets/img/mood-romantic.webp", product: "garden", tags: ["Peony", "Rose", "White musk"] },
+    { id: "joyful", name: "Joyful", img: "assets/img/mood-joyful.webp", product: "garden", tags: ["Citrus", "Blossom", "Sunshine"] },
+    { id: "bold", name: "Bold", img: "assets/img/mood-bold.webp", product: "noir", tags: ["Black pepper", "Oud", "Vanilla"] },
+    { id: "mysterious", name: "Mysterious", img: "assets/img/mood-mysterious.webp", product: "noir", tags: ["Smoke", "Leather", "Amber"] },
+  ];
 
   const money = new Intl.NumberFormat("en-ZA", { style: "currency", currency: CURRENCY, maximumFractionDigits: 0 });
   const $ = (s, el = document) => el.querySelector(s);
@@ -62,6 +66,7 @@
       card.className = "product";
       card.id = "p-" + p.id;
       card.dataset.size = "100";
+      card.dataset.times = p.times.join(" ");
 
       const fig = document.createElement("div");
       fig.className = "product__img";
@@ -164,31 +169,37 @@
   });
   $("#checkoutClose").addEventListener("click", () => (modal.close ? modal.close() : modal.removeAttribute("open")));
 
-  // ---------- Mood finder ----------
-  const result = $("#finderResult");
-  $$(".mood").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      $$(".mood").forEach((b) => b.classList.toggle("is-on", b === btn));
-      const mood = btn.dataset.mood;
-      const match = PRODUCTS.find((p) => p.moods[0] === mood) || PRODUCTS.find((p) => p.moods.includes(mood));
-      if (!match) return;
-      result.textContent = "";
-      const img = document.createElement("img"); img.src = match.img; img.alt = `${match.name} bottle`; img.width = 180; img.height = 240;
-      const txt = document.createElement("div");
-      const lead = document.createElement("p"); lead.className = "eyebrow"; lead.textContent = MOOD_COPY[mood];
-      const h = document.createElement("h3"); h.textContent = `${match.no} ${match.name}`;
-      const n = document.createElement("p"); n.textContent = match.notes;
-      const go = document.createElement("a"); go.className = "btn btn--gold"; go.href = "#p-" + match.id; go.textContent = "See it in the shop";
-      go.addEventListener("click", (e) => {
-        e.preventDefault();
-        const target = document.getElementById("p-" + match.id);
-        if (window.__lenis) window.__lenis.scrollTo(target, { offset: -90 }); else target.scrollIntoView({ behavior: "smooth", block: "center" });
-        target.classList.add("is-flash"); setTimeout(() => target.classList.remove("is-flash"), 1800);
-      });
-      txt.append(lead, h, n, go);
-      result.append(img, txt);
-      result.hidden = false;
-    });
+  // ---------- Time-of-day filter ----------
+  function applyFilter(filter) {
+    $$(".tab").forEach((t) => { const on = t.dataset.filter === filter; t.classList.toggle("is-on", on); t.setAttribute("aria-selected", on ? "true" : "false"); });
+    $$(".product", grid).forEach((c) => { c.hidden = filter !== "all" && !c.dataset.times.split(" ").includes(filter); });
+  }
+  $$(".tab").forEach((t) => t.addEventListener("click", () => applyFilter(t.dataset.filter)));
+
+  // ---------- Mood cards ----------
+  function goToProduct(id) {
+    applyFilter("all");
+    const target = document.getElementById("p-" + id);
+    if (!target) return;
+    if (window.__lenis) window.__lenis.scrollTo(target, { offset: -110 }); else target.scrollIntoView({ behavior: "smooth", block: "center" });
+    target.classList.add("is-flash"); setTimeout(() => target.classList.remove("is-flash"), 2200);
+  }
+  const moodGrid = $("#moodGrid");
+  MOODS.forEach((m) => {
+    const p = byId(m.product);
+    const card = document.createElement("button");
+    card.type = "button"; card.className = "mood"; card.dataset.mood = m.id;
+    card.setAttribute("aria-label", `${m.name}: see ${p.name}`);
+    const img = document.createElement("img"); img.src = m.img; img.alt = ""; img.loading = "lazy"; img.width = 800; img.height = 600;
+    const body = document.createElement("span"); body.className = "mood__body";
+    const name = document.createElement("span"); name.className = "mood__name"; name.textContent = m.name;
+    const tags = document.createElement("span"); tags.className = "mood__tags";
+    m.tags.forEach((t) => { const s = document.createElement("span"); s.textContent = t; tags.appendChild(s); });
+    body.append(name, tags);
+    const go = document.createElement("span"); go.className = "mood__go"; go.textContent = `${p.name} →`;
+    card.append(img, body, go);
+    card.addEventListener("click", () => goToProduct(m.product));
+    moodGrid.appendChild(card);
   });
 
   renderProducts();
