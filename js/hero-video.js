@@ -1,38 +1,42 @@
-/* Hero video: Amara sprays the perfume. It plays over the still photo (the video's first frame IS the photo),
-   fades back to the photo when it ends, then replays after a pause. It stays off for visitors who prefer reduced
-   motion or have data saver on, and it pauses whenever the hero is off screen. */
+/* Hero background video: loops forever. The clip starts on Amara and ends in the candlelit library, so a plain
+   loop would jump. Instead the whole media layer dips to black just before the end, the clip restarts, and it
+   fades back in. The poster photo (the clip's first frame) shows until the video can play.
+   Stays off for visitors who prefer reduced motion or have data saver on, and pauses when scrolled away. */
 (() => {
+  const media = document.querySelector(".hero__media");
   const video = document.querySelector(".hero__video");
-  if (!video) return;
+  if (!media || !video) return;
 
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const conn = navigator.connection || {};
   if (reduce || conn.saveData || /(^|-)2g$/.test(conn.effectiveType || "")) { video.remove(); return; }
 
-  const PAUSE_MS = 7000; // time on the still photo between plays
-  let timer = 0, visible = true, started = false;
+  const DIP_BEFORE_END = 0.95; // seconds before the end when the dip to black begins
+  let visible = true, started = false, dipping = false;
 
-  const play = () => {
-    if (!visible) return;
+  const start = () => {
+    dipping = false;
     video.currentTime = 0;
     const p = video.play();
-    if (p && p.catch) p.catch(() => { /* autoplay blocked: the photo stays, nothing breaks */ });
+    if (p && p.catch) p.catch(() => { /* autoplay blocked: the poster photo simply stays */ });
   };
 
-  video.addEventListener("playing", () => video.classList.add("is-on"));
-  video.addEventListener("ended", () => {
-    video.classList.remove("is-on");           // fade back to the matching still photo
-    clearTimeout(timer);
-    timer = setTimeout(play, PAUSE_MS);
+  video.addEventListener("playing", () => { video.classList.add("is-on"); media.classList.remove("is-dim"); });
+
+  video.addEventListener("timeupdate", () => {
+    if (!dipping && video.duration && video.currentTime >= video.duration - DIP_BEFORE_END) {
+      dipping = true;
+      media.classList.add("is-dim");                 // fade the layer to black
+      setTimeout(() => { if (visible) start(); }, DIP_BEFORE_END * 1000 + 150); // restart once fully dark
+    }
   });
+  video.addEventListener("ended", () => { if (visible && !dipping) { media.classList.add("is-dim"); setTimeout(start, 400); } });
   video.addEventListener("error", () => video.remove());
 
-  // Start once the intro has finished and the hero is on screen; pause when it scrolls away.
   new IntersectionObserver(([e]) => {
     visible = e.isIntersecting;
-    if (!visible) { clearTimeout(timer); video.pause(); return; }
-    if (!started) { started = true; video.preload = "auto"; setTimeout(play, 3500); }
-    else if (video.paused && !video.ended) video.play().catch(() => {});
-    else if (video.ended) { clearTimeout(timer); timer = setTimeout(play, 1500); }
-  }, { threshold: 0.35 }).observe(video);
+    if (!visible) { video.pause(); return; }
+    if (!started) { started = true; video.preload = "auto"; setTimeout(start, 3200); }
+    else if (video.paused) video.play().catch(() => {});
+  }, { threshold: 0.25 }).observe(media);
 })();

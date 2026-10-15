@@ -66,7 +66,6 @@
   // ---------- Intro ----------
   const heroLines = document.querySelectorAll(".hero__line");
   gsap.set(heroLines, { yPercent: 60, opacity: 0 });
-  gsap.set(".hero__figure", { opacity: 0, scale: 1.06 });
   gsap.set([".hero__sub", ".hero__cta", ".nav"], { opacity: 0, y: 20 });
 
   const intro = gsap.timeline({ defaults: { ease: "power3.out" } });
@@ -75,19 +74,14 @@
     .to(".loader__bar span", { scaleX: 1, duration: 1.2, ease: "power2.inOut" }, "<0.2")
     .to(loader, { yPercent: -100, duration: 1.1, ease: "power4.inOut" }, "+=0.15")
     .add(() => lenis.start(), "<0.6")
-    .to(".hero__figure", { opacity: 1, scale: 1, duration: 2, ease: "power2.out" }, "<0.2")
-    .to(heroLines, { yPercent: 0, opacity: 1, duration: 1.3, stagger: 0.15 }, "<0.4")
+    .to(heroLines, { yPercent: 0, opacity: 1, duration: 1.3, stagger: 0.15 }, "<0.3")
     .to([".hero__sub", ".hero__cta", ".nav"], { opacity: 1, y: 0, duration: 1, stagger: 0.12 }, "<0.7")
     .set(loader, { display: "none" });
 
   // ---------- Hero parallax ----------
-  gsap.to(".hero__figure", {
-    yPercent: 10, ease: "none",
-    scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
-  });
   gsap.to(".hero__copy", {
-    yPercent: -12, opacity: 0.2, ease: "none",
-    scrollTrigger: { trigger: ".hero", start: "40% top", end: "bottom top", scrub: true },
+    yPercent: -14, opacity: 0.15, ease: "none",
+    scrollTrigger: { trigger: ".hero", start: "35% top", end: "bottom top", scrub: true },
   });
 
   // ---------- Section reveals ----------

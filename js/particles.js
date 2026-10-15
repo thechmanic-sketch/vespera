@@ -27,8 +27,8 @@
 
   // A falling particle, spawned around the middle of the hero (where the bottle and mist are).
   const spawnDrop = () => {
-    // Fall down the left and right thirds so the flowers frame the headline and buttons.
-    const side = Math.random() < 0.5 ? rnd(0.06, 0.32) : rnd(0.68, 0.94);
+    // The headline sits bottom-left, so the particles fall down the right side (and a little in the middle).
+    const side = rnd(0.5, 0.95);
     drops.push({ x: w * side, y: h * rnd(0.35, 0.6), vy: rnd(1.4, 2.6), vx: rnd(-0.15, 0.15), r: rnd(1, 2.2), ph: Math.random() * 6.28, trail: [] });
   };
 
