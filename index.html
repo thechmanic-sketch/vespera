@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Vespera — Eau de Parfum</title>
-  <meta name="description" content="Vespera Eau de Parfum, Golden Hour edition. Wear the last light.">
+  <meta name="description" content="Vespera Eau de Parfum. Four fragrances for the hour the day softens. Wear the last light.">
   <meta name="theme-color" content="#141b3d">
   <meta property="og:title" content="Vespera — Eau de Parfum">
   <meta property="og:description" content="Wear the last light.">
@@ -27,10 +27,10 @@
   <header class="nav">
     <a class="nav__logo" href="#top" aria-label="Vespera home">VESPERA</a>
     <nav class="nav__links" aria-label="Primary">
-      <a href="#scent">The Scent</a>
-      <a href="#bottle">The Bottle</a>
+      <a href="#shop">Shop</a>
+      <a href="#finder">Find yours</a>
       <a href="#campaign">Campaign</a>
-      <a class="nav__cta" href="#reserve">Reserve</a>
+      <button class="nav__cta nav__bag" type="button" data-cart-open aria-label="Open your bag">Bag <span data-cart-count aria-live="polite">0</span></button>
     </nav>
   </header>
 
@@ -39,13 +39,15 @@
     <!-- HERO -->
     <section class="hero" aria-label="Introduction">
       <div class="hero__bg" aria-hidden="true"></div>
+      <canvas class="hero__dust" aria-hidden="true"></canvas>
       <h1 class="hero__title" aria-label="Vespera"><span data-split>VESPERA</span></h1>
       <figure class="hero__figure">
-        <img src="assets/img/amara-clean.webp" alt="Amara in a champagne silk gown holding the Vespera bottle at golden hour" width="1200" height="1600" fetchpriority="high">
+        <img src="assets/img/amara-hero.webp" alt="Amara in a champagne silk gown holding a full-size bottle of Vespera at golden hour" width="1200" height="1600" fetchpriority="high">
       </figure>
       <div class="hero__meta">
-        <p class="eyebrow">Eau de Parfum · Golden Hour edition</p>
+        <p class="eyebrow">Eau de Parfum · Four fragrances</p>
         <p class="hero__tag">Wear the <em>last light.</em></p>
+        <a class="btn btn--light" href="#shop">Shop the collection</a>
       </div>
       <a class="hero__scroll" href="#manifesto" aria-label="Scroll to discover"><span></span>Scroll</a>
     </section>
@@ -53,8 +55,8 @@
     <!-- MARQUEE -->
     <div class="marquee" aria-hidden="true">
       <div class="marquee__track">
-        <span>Eau de Parfum</span><i>✦</i><span>Golden Hour</span><i>✦</i><span>Wear the last light</span><i>✦</i>
-        <span>Eau de Parfum</span><i>✦</i><span>Golden Hour</span><i>✦</i><span>Wear the last light</span><i>✦</i>
+        <span>Eau de Parfum</span><i>✦</i><span>Free delivery over R1 500</span><i>✦</i><span>Wear the last light</span><i>✦</i>
+        <span>Eau de Parfum</span><i>✦</i><span>Free delivery over R1 500</span><i>✦</i><span>Wear the last light</span><i>✦</i>
       </div>
     </div>
 
@@ -66,29 +68,28 @@
       </p>
     </section>
 
+    <!-- STATS -->
+    <section class="stats" aria-label="At a glance">
+      <div class="stat"><span class="stat__n" data-count="4">0</span><span class="stat__l">Fragrances</span></div>
+      <div class="stat"><span class="stat__n" data-count="100" data-suffix=" ml">0</span><span class="stat__l">Largest bottle</span></div>
+      <div class="stat"><span class="stat__n" data-count="8" data-suffix="h+">0</span><span class="stat__l">Wear time*</span></div>
+      <div class="stat"><span class="stat__n" data-count="14" data-suffix=" days">0</span><span class="stat__l">Easy returns*</span></div>
+    </section>
+
     <!-- SCENT -->
     <section class="scent" id="scent">
       <div class="scent__media">
         <img src="assets/img/flatlay.webp" alt="Magnolia, pink pepper, bergamot, amber and sandalwood on navy velvet" loading="lazy" width="1600" height="900">
       </div>
       <div class="scent__body">
-        <p class="eyebrow">The scent</p>
+        <p class="eyebrow">The signature</p>
         <h2 class="h2">Three acts, <em>one evening.</em></h2>
         <ol class="notes">
-          <li class="note">
-            <span class="note__n">I</span>
-            <div><h3>Top</h3><p>Bergamot &amp; pink pepper. The first spark of golden light.</p></div>
-          </li>
-          <li class="note">
-            <span class="note__n">II</span>
-            <div><h3>Heart</h3><p>White magnolia &amp; neroli. Soft, radiant, unhurried.</p></div>
-          </li>
-          <li class="note">
-            <span class="note__n">III</span>
-            <div><h3>Base</h3><p>Amber, sandalwood &amp; vanilla. The warmth that lingers after dark.</p></div>
-          </li>
+          <li class="note"><span class="note__n">I</span><div><h3>Top</h3><p>Bergamot &amp; pink pepper. The first spark of golden light.</p></div></li>
+          <li class="note"><span class="note__n">II</span><div><h3>Heart</h3><p>White magnolia &amp; neroli. Soft, radiant, unhurried.</p></div></li>
+          <li class="note"><span class="note__n">III</span><div><h3>Base</h3><p>Amber, sandalwood &amp; vanilla. The warmth that lingers after dark.</p></div></li>
         </ol>
-        <p class="fineprint">Notes shown are placeholder copy — replace with the final fragrance pyramid.</p>
+        <p class="fineprint">Notes, wear time and returns marked * are placeholder copy — replace with final details.</p>
       </div>
     </section>
 
@@ -98,15 +99,42 @@
         <img class="bottle__img" src="assets/img/bottle-hero.webp" alt="The Vespera bottle: clear glass, amber liquid, brushed-gold cap" loading="lazy" width="1200" height="1600">
         <div class="bottle__copy">
           <p class="eyebrow">The bottle</p>
-          <h2 class="h2">Clear glass. <em>Liquid amber.</em><br>A cap of brushed gold.</h2>
+          <h2 class="h2">Clear glass. <em>Liquid colour.</em><br>A cap of brushed gold.</h2>
           <p>Restraint, made precious. Nothing on it that doesn't need to be there.</p>
           <dl class="specs">
-            <div><dt>Format</dt><dd>50 ml · 100 ml</dd></div>
+            <div><dt>Sizes</dt><dd>50 ml · 100 ml</dd></div>
             <div><dt>Concentration</dt><dd>Eau de Parfum</dd></div>
-            <div><dt>Edition</dt><dd>Golden Hour</dd></div>
+            <div><dt>Fragrances</dt><dd>Four</dd></div>
           </dl>
         </div>
       </div>
+    </section>
+
+    <!-- SHOP -->
+    <section class="shop" id="shop" aria-label="Shop">
+      <div class="shop__head">
+        <p class="eyebrow">The collection</p>
+        <h2 class="h2">Four fragrances, <em>one hour.</em></h2>
+      </div>
+      <div class="products" id="products" aria-live="polite"></div>
+      <p class="fineprint shop__note">Prices are placeholders — set the real prices in <code>js/shop.js</code>.</p>
+    </section>
+
+    <!-- FINDER -->
+    <section class="finder" id="finder" aria-label="Find your fragrance">
+      <div class="finder__head">
+        <p class="eyebrow">Find yours</p>
+        <h2 class="h2">How do you want <em>to feel?</em></h2>
+      </div>
+      <div class="moods" role="group" aria-label="Choose a mood">
+        <button class="mood" type="button" data-mood="calm">Calm</button>
+        <button class="mood" type="button" data-mood="fresh">Fresh</button>
+        <button class="mood" type="button" data-mood="romantic">Romantic</button>
+        <button class="mood" type="button" data-mood="joyful">Joyful</button>
+        <button class="mood" type="button" data-mood="bold">Bold</button>
+        <button class="mood" type="button" data-mood="mysterious">Mysterious</button>
+      </div>
+      <div class="finder__result" id="finderResult" aria-live="polite" hidden></div>
     </section>
 
     <!-- CAMPAIGN (horizontal) -->
@@ -117,22 +145,33 @@
           <h2 class="h2">Amara, <em>at dusk.</em></h2>
         </div>
         <div class="campaign__track">
-          <figure class="card"><img src="assets/img/poster-sunset.webp" alt="Vespera campaign poster, sunset" loading="lazy" width="900" height="1200"><figcaption>I — Golden Hour</figcaption></figure>
-          <figure class="card"><img src="assets/img/poster-blue.webp" alt="Vespera campaign poster, blue hour among the rocks" loading="lazy" width="900" height="1200"><figcaption>II — Blue Hour</figcaption></figure>
+          <figure class="card"><img src="assets/img/amara-golden.webp" alt="Amara holding Vespera at golden hour" loading="lazy" width="900" height="1200"><figcaption>I — Golden Hour</figcaption></figure>
+          <figure class="card"><img src="assets/img/amara-blue.webp" alt="Amara at blue hour holding a Vespera bottle" loading="lazy" width="900" height="1200"><figcaption>II — Blue Hour</figcaption></figure>
           <figure class="card"><img src="assets/img/poster-garden.webp" alt="Vespera campaign poster, Amara among magnolias" loading="lazy" width="900" height="1200"><figcaption>III — Garden</figcaption></figure>
           <figure class="card"><img src="assets/img/amara-night.webp" alt="Amara on a rooftop terrace at twilight" loading="lazy" width="1600" height="900"><figcaption>IV — Nightfall</figcaption></figure>
         </div>
       </div>
     </section>
 
+    <!-- HOW IT WORKS -->
+    <section class="how" id="how" aria-label="How ordering works">
+      <p class="eyebrow">Ordering</p>
+      <h2 class="h2">Simple, <em>from first spray.</em></h2>
+      <ol class="steps">
+        <li><span>01</span><h3>Choose</h3><p>Pick a fragrance and a size, or use the mood finder to find your match.</p></li>
+        <li><span>02</span><h3>Order</h3><p>Add to your bag and check out securely.</p></li>
+        <li><span>03</span><h3>Delivered</h3><p>Gift-ready packaging at your door.</p></li>
+      </ol>
+    </section>
+
     <!-- RESERVE -->
     <section class="reserve" id="reserve">
-      <p class="eyebrow">Launching soon</p>
+      <p class="eyebrow">Stay in the light</p>
       <h2 class="reserve__title">Wear the <em>last light.</em></h2>
       <form class="reserve__form" action="#" method="post" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Thank you ✦';">
         <label class="sr-only" for="email">Email address</label>
         <input id="email" type="email" name="email" placeholder="Your email" autocomplete="email" required>
-        <button type="submit">Reserve yours</button>
+        <button type="submit">Join the list</button>
       </form>
       <p class="fineprint">Demo form — connect to your email service before launch.</p>
     </section>
@@ -140,10 +179,35 @@
 
   <footer class="footer">
     <span>© 2026 Vespera</span>
-    <span>Eau de Parfum · Golden Hour</span>
+    <span>Eau de Parfum</span>
     <a href="#top">Back to top ↑</a>
   </footer>
 
+  <!-- Bag drawer -->
+  <div class="scrim" data-cart-close hidden></div>
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" aria-hidden="true">
+    <div class="drawer__head">
+      <h2 id="drawerTitle">Your bag</h2>
+      <button type="button" class="drawer__close" data-cart-close aria-label="Close bag">✕</button>
+    </div>
+    <ul class="drawer__items" id="cartItems"></ul>
+    <p class="drawer__empty" id="cartEmpty">Your bag is empty.</p>
+    <div class="drawer__foot">
+      <div class="drawer__row"><span>Subtotal</span><strong id="cartSubtotal">R0</strong></div>
+      <p class="fineprint" id="cartShip">Free delivery over R1 500.</p>
+      <button type="button" class="btn btn--gold" id="checkoutBtn" disabled>Checkout</button>
+    </div>
+  </aside>
+
+  <dialog class="modal" id="checkoutModal">
+    <h2>Checkout isn't connected yet</h2>
+    <p>This is a working shop front. To take real orders, connect a South African payment provider such as Yoco, PayFast or Paystack, or use Stripe payment links.</p>
+    <p class="modal__sum" id="checkoutSummary"></p>
+    <button type="button" class="btn btn--gold" id="checkoutClose">Back to the shop</button>
+  </dialog>
+
+  <script src="js/shop.js"></script>
+  <script src="js/particles.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>

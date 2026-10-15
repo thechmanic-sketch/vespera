@@ -33,8 +33,8 @@
   if (!window.gsap || !window.ScrollTrigger || reduce) {
     loader && loader.remove();
     document.querySelectorAll(".word").forEach((w) => (w.style.opacity = 1));
-    document.documentElement.style.setProperty("--bg", "#1a2150");
-    document.body.style.color = "#f8f0e5";
+    document.querySelectorAll("[data-count]").forEach((el) => (el.textContent = el.dataset.count + (el.dataset.suffix || "")));
+    document.body.dataset.theme = "indigo";
     return;
   }
 
@@ -42,6 +42,7 @@
 
   // Smooth scrolling.
   const lenis = new Lenis({ lerp: 0.09, wheelMultiplier: 0.95 });
+  window.__lenis = lenis; // used by the shop's bag drawer and mood finder
   lenis.on("scroll", ScrollTrigger.update);
   gsap.ticker.add((t) => lenis.raf(t * 1000));
   gsap.ticker.lagSmoothing(0);
@@ -92,19 +93,49 @@
   });
 
   // ---------- Golden hour -> night ----------
-  const shift = (trigger, to) =>
-    gsap.to(document.body, {
-      backgroundColor: to.bg, color: to.fg, "--accent": to.accent, ease: "none",
-      scrollTrigger: { trigger, start: "top 85%", end: "top 25%", scrub: true },
+  // The page colour follows whichever section is in view (stateless, so jumping
+  // straight to #shop from the menu or after a reload still gets the right colour).
+  const themes = [
+    [".hero", "peach"], [".marquee", "peach"], [".manifesto", "peach"], [".stats", "peach"],
+    [".scent", "rose"],
+    [".bottle", "indigo"], [".shop", "indigo"], [".finder", "indigo"],
+    [".campaign", "night"], [".how", "night"], [".reserve", "night"],
+  ];
+  themes.forEach(([sel, theme]) => {
+    ScrollTrigger.create({
+      trigger: sel, start: "top 60%", end: "bottom 60%",
+      onToggle: (self) => { if (self.isActive) document.body.dataset.theme = theme; },
     });
-  shift(".scent", { bg: "#e9b09a", fg: "#2a1c1a", accent: "#96662a" });
-  shift(".bottle", { bg: "#2b2f66", fg: "#f8f0e5", accent: "#d9b472" });
-  shift(".campaign", { bg: "#0a0e24", fg: "#f8f0e5", accent: "#d9b472" });
+  });
 
   // ---------- Manifesto word reveal ----------
   gsap.to(".manifesto .word", {
     opacity: 1, stagger: 0.06, ease: "none",
     scrollTrigger: { trigger: ".manifesto__text", start: "top 78%", end: "bottom 55%", scrub: true },
+  });
+
+  // ---------- Stats count-up ----------
+  document.querySelectorAll("[data-count]").forEach((el) => {
+    const end = Number(el.dataset.count), suffix = el.dataset.suffix || "", o = { v: 0 };
+    gsap.to(o, {
+      v: end, duration: 1.8, ease: "power2.out",
+      onUpdate: () => (el.textContent = Math.round(o.v) + suffix),
+      scrollTrigger: { trigger: el, start: "top 88%", once: true },
+    });
+  });
+
+  // ---------- Shop reveals ----------
+  gsap.from(".product", {
+    y: 60, opacity: 0, duration: 1, stagger: 0.12, ease: "power3.out",
+    scrollTrigger: { trigger: ".products", start: "top 82%" },
+  });
+  gsap.from(".mood", {
+    y: 24, opacity: 0, duration: 0.8, stagger: 0.07, ease: "power3.out",
+    scrollTrigger: { trigger: ".moods", start: "top 88%" },
+  });
+  gsap.from(".steps li", {
+    y: 40, opacity: 0, duration: 1, stagger: 0.14, ease: "power3.out",
+    scrollTrigger: { trigger: ".steps", start: "top 85%" },
   });
 
   // ---------- Scent ----------
